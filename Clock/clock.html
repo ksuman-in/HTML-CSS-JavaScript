@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML CSS and JavaScript Clock</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .d-none {
+        display: none !important;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        padding: 10px 20px;
+        font-size: 18px;
+        font-family: cursive;
+      }
+      .button {
+        margin-bottom: 40px;
+        padding: 10px 15px;
+        font-size: 20px;
+        font-family: cursive;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: all 300ms ease-in;
+      }
+      .analog-clock {
+        position: relative;
+        display: flex;
+        height: 350px;
+        width: 350px;
+        justify-content: center;
+        align-items: center;
+        background: url("clock.png");
+        background-size: cover;
+        border-radius: 50%;
+        box-shadow: 0 0 0 15px white, 0 4px 15px 10px rgba(0, 0, 0, 0.6),
+          0 5px 10px rgba(0, 0, 0, 0.3) inset,
+          0 -5px 10px rgba(0, 0, 0, 0.3) inset;
+      }
+      .analog-clock::before {
+        content: "";
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        background: red;
+        border-radius: 50%;
+        z-index: 100;
+      }
+      .meridiem,
+      .year,
+      .month,
+      .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        padding: 2px 5px;
+        border: 1px solid #333;
+        border-radius: 2px;
+      }
+      .meridiem {
+        left: 70px;
+      }
+      .year {
+        bottom: 75px;
+      }
+      .month {
+        right: 70px;
+      }
+      .day {
+        top: 75px;
+      }
+      .hour,
+      .minute,
+      .second {
+        position: absolute;
+      }
+      .hour,
+      .hr {
+        height: 130px;
+        width: 130px;
+      }
+      .minute,
+      .min {
+        height: 180px;
+        width: 180px;
+      }
+      .second,
+      .sec {
+        height: 250px;
+        width: 250px;
+      }
+      .hr,
+      .min,
+      .sec {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        border-radius: 50%;
+      }
+      .hr::before {
+        content: "";
+        position: absolute;
+        height: 65px;
+        width: 6px;
+        background: #333;
+        border-radius: 6px 6px 0 0;
+        z-index: 10;
+      }
+      .min::before {
+        content: "";
+        position: absolute;
+        height: 90px;
+        width: 4px;
+        background: #333;
+        border-radius: 6px 6px 0 0;
+        z-index: 10;
+      }
+      .sec::before {
+        content: "";
+        position: absolute;
+        height: 150px;
+        width: 3px;
+        background: #333;
+        border-radius: 6px 6px 0 0;
+        z-index: 10;
+      }
+
+      @media screen and (max-width: 420px) {
+        .analog-clock {
+          height: 150px;
+          width: 150px;
+          box-shadow: 0 0 0 8px white, 0 2px 8px 10px rgba(0, 0, 0, 0.6),
+            0 5px 10px rgba(0, 0, 0, 0.3) inset,
+            0 -5px 10px rgba(0, 0, 0, 0.3) inset;
+        }
+        .analog-clock::before {
+          height: 5px;
+          width: 5px;
+        }
+        .meridiem,
+        .year,
+        .month,
+        .day {
+          font-size: 12px;
+          padding: 1px 3px;
+        }
+        .meridiem {
+          left: 25px;
+        }
+        .year {
+          bottom: 30px;
+        }
+        .month {
+          right: 25px;
+        }
+        .day {
+          top: 30px;
+        }
+        .hour,
+        .hr {
+          height: 60px;
+          width: 60px;
+        }
+        .minute,
+        .min {
+          height: 90px;
+          width: 90px;
+        }
+        .second,
+        .sec {
+          height: 120px;
+          width: 120px;
+        }
+        .hr::before {
+          height: 30px;
+          width: 4px;
+        }
+        .min::before {
+          height: 45px;
+          width: 3px;
+        }
+        .sec::before {
+          content: "";
+          position: absolute;
+          height: 70px;
+          width: 2px;
+          background: #333;
+          border-radius: 6px 6px 0 0;
+          z-index: 10;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="title">Click button and change Analog and Digital Clock</p>
+    <button class="button">Digital</button>
+    <div class="analog-clock">
+      <p class="meridiem" id="meridiem"></p>
+      <p class="year" id="year"></p>
+      <p class="day" id="day"></p>
+      <p class="month" id="month"></p>
+      <div class="hour">
+        <div class="hr" id="hr"></div>
+      </div>
+      <div class="minute">
+        <div class="min" id="min"></div>
+      </div>
+      <div class="second">
+        <div class="sec" id="sec"></div>
+      </div>
+    </div>
+    <div class="digital-clock"></div>
+    <script>
+      const deg = 6;
+      let clock = "analog";
+      const months = [
+        "Jan",
+        "Feb",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+      let hr = document.querySelector("#hr");
+      let min = document.querySelector("#min");
+      let sec = document.querySelector("#sec");
+      let meridiem = document.querySelector("#meridiem");
+      let year = document.querySelector("#year");
+      let month = document.querySelector("#month");
+      let day = document.querySelector("#day");
+      let button = document.querySelector("button");
+      let analog = document.querySelector(".analog-clock");
+      let digital = document.querySelector(".digital-clock");
+
+      button.addEventListener("click", changeClock);
+
+      function changeClock() {
+        let text = this.innerHTML.toLowerCase();
+        if (text === "analog") {
+          this.innerHTML = "Digital";
+          analog.classList.remove("d-none");
+          digital.classList.add("d-none");
+        } else {
+          this.innerHTML = "Analog";
+          analog.classList.add("d-none");
+          digital.classList.remove("d-none");
+        }
+      }
+
+      setInterval(() => {
+        let time = new Date();
+        let yr = time.getFullYear();
+        let mon = time.getMonth();
+        let dd = time.getDay();
+        let hh = time.getHours();
+        let mm = time.getMinutes() * deg;
+        let ss = time.getSeconds() * deg;
+
+        hh > 11 ? (meridiem.innerHTML = "PM") : (meridiem.innerHTML = "AM");
+        year.innerHTML = yr;
+        month.innerHTML = months[mon];
+        day.innerHTML = dd + 1;
+
+        hr.style.transform = `rotateZ(${hh * 30 + mm / 12}deg)`;
+        min.style.transform = `rotateZ(${mm}deg)`;
+        sec.style.transform = `rotateZ(${ss}deg)`;
+      });
+    </script>
+  </body>
+</html>
