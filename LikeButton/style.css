@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.like-button {
+  overflow: visible;
+  cursor: pointer;
+  transition: 100ms ease-in;
+}
+.like-button.exploded {
+  cursor: initial;
+}
+.like-button.big:not(.exploded) {
+  transform: scale(1.2);
+  cursor: none;
+}
+.crack {
+  display: none;
+}
+.grp-top.cracked .crack,
+.grp-right-top.cracked .crack,
+.grp-right-bottom.cracked .crack,
+.grp-left.cracked .crack {
+  display: block;
+}
+.grp-top,
+.grp-right-top,
+.grp-right-bottom,
+.grp-ractangle,
+.grp-left {
+  transition: 500ms ease-in;
+  transform-origin: center;
+}
+.exploded .grp-top {
+  transform: translate(-15vw, -15vh) rotate(300deg);
+}
+.exploded .grp-right-top {
+  transform: translate(15vw, -20vh) rotate(450deg);
+}
+.exploded .grp-right-bottom {
+  transform: translate(15vw, 20vh) rotate(300deg);
+}
+.exploded .grp-left {
+  transform: translate(-15vw, 20vh) rotate(350deg);
+}
+.exploded .grp-ractangle {
+  transform: translate(0, 10vh) rotate(100deg);
+}

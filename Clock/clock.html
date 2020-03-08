@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML CSS and JavaScript Clock</title>
-    <link rel="stylesheet" href="clock.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
     <div class="header">
@@ -48,96 +49,5 @@
         </div>
       </div>
     </div>
-    <script>
-      const deg = 6;
-      let clock = "analog";
-      const months = [
-        "Jan",
-        "Feb",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ];
-      const days = [
-        "Sunday",
-        "Mondya",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ];
-      let hr = document.querySelector("#hr");
-      let min = document.querySelector("#min");
-      let sec = document.querySelector("#sec");
-      let dhr = document.querySelector("#d-hr");
-      let dmin = document.querySelector("#d-min");
-      let dsec = document.querySelector("#d-sec");
-      let meridiem = document.querySelector("#meridiem");
-      let year = document.querySelector("#year");
-      let month = document.querySelector("#month");
-      let date = document.querySelector("#date");
-      let button = document.querySelector("button");
-      let analog = document.querySelector(".analog-clock");
-      let digital = document.querySelector(".digital-clock");
-      let dmeridiem = document.querySelector("#d-meridiem");
-      let dday = document.querySelector("#d-day");
-
-      button.addEventListener("click", changeClock);
-
-      function changeClock() {
-        let text = this.innerHTML.toLowerCase();
-        if (text === "analog") {
-          this.innerHTML = "Digital";
-          analog.classList.remove("d-none");
-          digital.classList.add("d-none");
-        } else {
-          this.innerHTML = "Analog";
-          analog.classList.add("d-none");
-          digital.classList.remove("d-none");
-        }
-      }
-
-      setInterval(() => {
-        let time = new Date();
-        let yr = time.getFullYear();
-        let mon = time.getMonth();
-        let dt = time.getDate();
-        let dd = time.getDay();
-        let hh = time.getHours();
-        let mm = time.getMinutes();
-        let ss = time.getSeconds();
-
-        if (hh >= 12) {
-          dmeridiem.innerHTML = "PM";
-          meridiem.innerHTML = "PM";
-          if (hh !== 12) hh = hh - 12;
-          dhr.innerHTML = hh < 10 ? `0${hh}` : hh;
-        } else {
-          meridiem.innerHTML = "AM";
-          dmeridiem.innerHTML = "AM";
-          dhr.innerHTML = hh < 10 ? `0${hh}` : hh;
-        }
-
-        year.innerHTML = yr;
-        month.innerHTML = months[mon];
-        date.innerHTML = dt < 10 ? `0${dt}` : dt;
-
-        dmin.innerHTML = mm < 10 ? `0${mm}` : mm;
-        dsec.innerHTML = ss < 10 ? `0${ss}` : ss;
-        dday.innerHTML = `${days[dd]}, ${dt} ${months[mon]} - ${yr}`;
-
-        hr.style.transform = `rotateZ(${hh * 30 + mm / 2}deg)`;
-        min.style.transform = `rotateZ(${mm * deg}deg)`;
-        sec.style.transform = `rotateZ(${ss * deg}deg)`;
-      });
-    </script>
   </body>
 </html>
