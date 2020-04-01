@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolTips using CSS</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .tooltips{
+            height: 180px;
+            width: 180px;
+            position: relative;
+            background-image: url("https://source.unsplash.com/collection/162326/dark-portraits");
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+        }
+        .tooltips::before, .tooltips::after{
+            --scale: 0;
+            --tooltip-bg-color: #333;
+            --arrow-size: 15px;
+
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%) translateY(var(--transform-y, 0)) scale(var(--scale));
+            transition: 150ms transform;
+            transform-origin: bottom;
+        }
+        .tooltips::before{
+            content: attr(data-tooltip);
+            background-color: var(--tooltip-bg-color);
+            content: attr(data-tooltip);
+            padding: 10px;
+            background-color: var(--tooltip-bg-color);
+            width: max-content;
+            max-width: 100%;
+            color: #fff;
+            font-family: cursive;
+            text-align: center;
+            border-radius: 5px;
+            --transform-y: calc(-100% - var(--arrow-size))
+        }
+        .tooltips:hover::before, 
+        .tooltips:hover::after{
+             --scale: 1;
+        }
+        .tooltips::after{
+            content: "";
+            border: var(--arrow-size) solid transparent;
+            border-top-color: var(--tooltip-bg-color);
+            --transform-y: calc(-1 * var(--arrow-size));
+            transform-origin: top center;
+        }
+    </style>
+</head>
+<body>
+    <div class="tooltips" data-tooltip="Unsplash Random Dark-portraits Imgaes"></div>
+</body>
+</html>
